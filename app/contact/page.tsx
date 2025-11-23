@@ -21,12 +21,10 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="min-h-screen bg-white">
-
+    <div className="min-h-screen bg-white text-gray-900 dark:bg-gray-900 dark:text-gray-100 transition-colors">
       {/* MAIN CONTENT */}
       <section className="mx-auto max-w-6xl px-4 py-10">
         <div className="grid gap-12 md:grid-cols-2">
-
           {/* LEFT COLUMN – CONTACT DETAILS */}
           <div className="space-y-10">
             <h2 className="text-2xl font-bold uppercase tracking-wide">
@@ -35,15 +33,18 @@ export default function ContactPage() {
 
             {/* National Office */}
             <div className="flex gap-4">
-              <div className="h-14 w-14 flex items-center justify-center rounded-full bg-blue-500 text-white text-2xl">
+              <div className="flex h-14 w-14 items-center justify-center rounded-full bg-blue-500 dark:bg-blue-600 text-white text-2xl">
                 🇮🇳
               </div>
               <div>
                 <p className="text-lg font-semibold">National Office</p>
-                <p className="text-sm leading-relaxed text-gray-700">
-                  Sanjay Kumar<br />
-                  A281C, Gali No.-3<br />
-                  AA Block, Shalimar Bagh<br />
+                <p className="text-sm leading-relaxed text-gray-700 dark:text-gray-300">
+                  Sanjay Kumar
+                  <br />
+                  A281C, Gali No.-3
+                  <br />
+                  AA Block, Shalimar Bagh
+                  <br />
                   Delhi – 110094
                 </p>
               </div>
@@ -51,43 +52,64 @@ export default function ContactPage() {
 
             {/* Official Email */}
             <div className="flex gap-4">
-              <div className="h-14 w-14 flex items-center justify-center rounded-full bg-blue-500 text-white text-2xl">
+              <div className="flex h-14 w-14 items-center justify-center rounded-full bg-blue-500 dark:bg-blue-600 text-white text-2xl">
                 ✉️
               </div>
               <div>
                 <p className="text-lg font-semibold">Email</p>
-                <p className="text-sm text-gray-700">nationaljournalistsassociation@gmail.com</p>
-                <p className="text-sm text-gray-700">rkgupatbnl3@gmail.com</p>
-                <p className="text-sm text-gray-700">Website: nja.org.in</p>
+                <p className="text-sm text-gray-700 dark:text-gray-300">
+                  nationaljournalistsassociation@gmail.com
+                </p>
+                <p className="text-sm text-gray-700 dark:text-gray-300">
+                  rkgupatbnl3@gmail.com
+                </p>
+                <p className="text-sm text-gray-700 dark:text-gray-300">
+                  Website: nja.org.in
+                </p>
               </div>
             </div>
 
             {/* All Member Contact Numbers */}
             <div className="flex gap-4">
-              <div className="h-14 w-14 flex items-center justify-center rounded-full bg-blue-500 text-white text-2xl">
+              <div className="flex h-14 w-14 items-center justify-center rounded-full bg-blue-500 dark:bg-blue-600 text-white text-2xl">
                 📞
               </div>
               <div>
                 <p className="text-lg font-semibold">Phone Numbers</p>
-                <p className="text-sm text-gray-700">Rakesh Kumar Gupta – 9431210737</p>
-                <p className="text-sm text-gray-700">Neeraj Kumar Singh – 9479830286</p>
-                <p className="text-sm text-gray-700">Arvind Sharma – 9631788428</p>
-                <p className="text-sm text-gray-700">Abhishek Kumar Srivastava – 8757138617</p>
-                <p className="text-sm text-gray-700">Dr. Ashok Kumar Mishra – 9798466784</p>
-                <p className="text-sm text-gray-700">Rana Pratap Singh – 8008428936</p>
-                <p className="text-sm text-gray-700">Din Bandhu Singh – 9641023865</p>
+                <p className="text-sm text-gray-700 dark:text-gray-300">
+                  Rakesh Kumar Gupta – 9431210737
+                </p>
+                <p className="text-sm text-gray-700 dark:text-gray-300">
+                  Neeraj Kumar Singh – 9479830286
+                </p>
+                <p className="text-sm text-gray-700 dark:text-gray-300">
+                  Arvind Sharma – 9631788428
+                </p>
+                <p className="text-sm text-gray-700 dark:text-gray-300">
+                  Abhishek Kumar Srivastava – 8757138617
+                </p>
+                <p className="text-sm text-gray-700 dark:text-gray-300">
+                  Dr. Ashok Kumar Mishra – 9798466784
+                </p>
+                <p className="text-sm text-gray-700 dark:text-gray-300">
+                  Rana Pratap Singh – 8008428936
+                </p>
+                <p className="text-sm text-gray-700 dark:text-gray-300">
+                  Din Bandhu Singh – 9641023865
+                </p>
               </div>
             </div>
 
             {/* Working Hours */}
             <div className="flex gap-4">
-              <div className="h-14 w-14 flex items-center justify-center rounded-full bg-blue-500 text-white text-2xl">
+              <div className="flex h-14 w-14 items-center justify-center rounded-full bg-blue-500 dark:bg-blue-600 text-white text-2xl">
                 🕒
               </div>
               <div>
                 <p className="text-lg font-semibold">Working Hours</p>
-                <p className="text-sm text-gray-700">
-                  Sun – Fri<br />
+                <p className="text-sm text-gray-700 dark:text-gray-300">
+                  Sun – Fri
+                  <br />
                   9:00 AM – 5:00 PM
                 </p>
               </div>
@@ -102,48 +124,56 @@ export default function ContactPage() {
 
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
-                <label className="mb-1 block text-sm font-medium">Your name</label>
+                <label className="mb-1 block text-sm font-medium">
+                  Your name
+                </label>
                 <input
                   name="name"
                   type="text"
                   onChange={handleChange}
-                  className="w-full rounded border border-gray-300 px-3 py-2"
+                  className="w-full rounded border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
                 />
               </div>
 
               <div>
-                <label className="mb-1 block text-sm font-medium">Your email</label>
+                <label className="mb-1 block text-sm font-medium">
+                  Your email
+                </label>
                 <input
                   name="email"
                   type="email"
                   onChange={handleChange}
-                  className="w-full rounded border border-gray-300 px-3 py-2"
+                  className="w-full rounded border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
                 />
               </div>
 
               <div>
-                <label className="mb-1 block text-sm font-medium">Mobile</label>
+                <label className="mb-1 block text-sm font-medium">
+                  Mobile
+                </label>
                 <input
                   name="mobile"
                   type="text"
                   onChange={handleChange}
-                  className="w-full rounded border border-gray-300 px-3 py-2"
+                  className="w-full rounded border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
                 />
               </div>
 
               <div>
-                <label className="mb-1 block text-sm font-medium">Your message</label>
+                <label className="mb-1 block text-sm font-medium">
+                  Your message
+                </label>
                 <textarea
                   name="message"
                   rows={4}
                   onChange={handleChange}
-                  className="w-full rounded border border-gray-300 px-3 py-2"
+                  className="w-full rounded border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
                 ></textarea>
               </div>
 
               <button
                 type="submit"
-                className="rounded bg-blue-600 px-6 py-2 font-semibold text-white hover:bg-blue-700"
+                className="rounded bg-blue-600 px-6 py-2 font-semibold text-white hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-400"
               >
                 Submit
               </button>
@@ -152,7 +182,7 @@ export default function ContactPage() {
         </div>
 
         {/* GOOGLE MAP */}
-        <div className="mt-16 h-[450px] w-full">
+        <div className="mt-16 h-[450px] w-full rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700">
           <iframe
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d13996.52726320529!2d77.13801383470415!3d28.715606423105882!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d019b1d5d2c0b%3A0xc1e6a3811f55c247!2sShalimar%20Bagh%2C%20Delhi!5e0!3m2!1sen!2sin!4v1763924309412!5m2!1sen!2sin"
             width="100%"
