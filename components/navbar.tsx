@@ -21,21 +21,25 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { ModeToggle } from "@/components/mode-toggle";
 
-const navItems = [
+type NavChild = { label: string; href: string };
+type NavItem = { label: string; href?: string; children?: NavChild[] };
+
+const navItems: NavItem[] = [
   { label: "Home", href: "/" },
   { label: "About Us", href: "/about" },
-  {
-    label: "Our Team",
-    children: [
-      { label: "Patrons", href: "/patron" },
-      { label: "All Members", href: "/all-members" },
-    ],
-  },
+  // {
+  //   label: "Our Team",
+  //   children: [
+  //     { label: "Patrons", href: "/patron" },
+  //     { label: "All Members", href: "/all-members" },
+  //   ],
+  // },
+  { label: "Our Team", href: "/all-members" },
   { label: "Updates", href: "/updates" },
   { label: "Contact", href: "/contact" },
 ];
 
-const loginItem = { label: "Login / Join", href: "/login" };
+const loginItem: NavItem = { label: "Login / Join", href: "/login" };
 
 export function Navbar() {
   const pathname = usePathname();
@@ -96,7 +100,7 @@ export function Navbar() {
               ) : (
                 <li key={item.label}>
                   <Link
-                    href={item.href}
+                    href={item.href ?? "#"}
                     className={`border-b-2 border-transparent pb-1 text-sm transition hover:border-primary/60 ${
                       isActive(item.href)
                         ? "border-primary text-primary"
@@ -112,7 +116,7 @@ export function Navbar() {
 
           {/* Login / Join button */}
           <Button size="sm" asChild className="rounded-full">
-            <Link href={loginItem.href}>{loginItem.label}</Link>
+            <Link href={loginItem.href ?? "#"}>{loginItem.label}</Link>
           </Button>
 
           {/* Theme switch */}
@@ -158,7 +162,7 @@ export function Navbar() {
                   ) : (
                     <Link
                       key={item.label}
-                      href={item.href}
+                      href={item.href ?? "#"}
                       className={`rounded-md px-2 py-1.5 ${
                         isActive(item.href)
                           ? "bg-primary/10 text-primary"
@@ -172,7 +176,7 @@ export function Navbar() {
 
                 <div className="mt-2">
                   <Button className="w-full rounded-full" asChild>
-                    <Link href={loginItem.href}>{loginItem.label}</Link>
+                    <Link href={loginItem.href ?? "#"}>{loginItem.label}</Link>
                   </Button>
                 </div>
               </nav>

@@ -34,7 +34,6 @@ export default function StatsSection() {
     py-16 
     text-center 
     transition-all duration-500
-    my-5
     bg-linear-to-r from-[#d5d5d5] via-[#bdbdbd] to-[#d5d5d5]
     dark:bg-linear-to-r dark:from-[#1a1a1a] dark:via-[#282828] dark:to-[#1a1a1a]
   "

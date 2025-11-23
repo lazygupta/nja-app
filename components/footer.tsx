@@ -98,7 +98,7 @@ export function Footer() {
               "/img3.jpg",
               "/img5.jpg",
               "/img6.jpg",
-              "/img12.jpg",
+              "/ad5.jpg",
             ].map((src, i) => (
               <div
                 key={i}
