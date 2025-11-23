@@ -9,11 +9,11 @@ export function Hero() {
         {/* LEFT CONTENT */}
         <div className="flex flex-col justify-center">
           <h1 className="text-3xl font-bold leading-tight tracking-tight md:text-4xl">
-            Web Journalists’ Association of India
+            National Journalist Association
           </h1>
 
           <p className="mt-4 text-base leading-relaxed text-muted-foreground">
-            Web Journalists’ Association of India is a national association 
+            National Journalist Association is a national association 
             dedicated to preserving and protecting the freedom of web journalists 
             and improving the quality of online news content through professional standards.
           </p>

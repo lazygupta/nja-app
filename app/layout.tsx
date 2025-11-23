@@ -5,7 +5,7 @@ import "./globals.css";
 import { Footer } from "@/components/footer";
 
 export const metadata: Metadata = {
-  title: "WJAI-like Association Site",
+  title: "National Journalist Association",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

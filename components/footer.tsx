@@ -41,17 +41,6 @@ export function Footer() {
             <li className="flex gap-3">
               <MapPin className="mt-0.5 h-4 w-4 text-sky-400" />
               <span>
-                Registered Office (Panjikrit Karyalaya):
-                <br />
-                C/o Ashok Kumar Mishra, Rajvanshi Nagar,
-                <br />
-                Patna, Bihar 841226
-              </span>
-            </li>
-
-            <li className="flex gap-3">
-              <MapPin className="mt-0.5 h-4 w-4 text-sky-400" />
-              <span>
                 National Office (Rashtriya Karyalaya):
                 <br />
                 Sanjay Kumar, A28C Gali No-3,
