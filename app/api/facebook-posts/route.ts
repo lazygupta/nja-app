@@ -2,7 +2,7 @@
 import { NextResponse } from "next/server";
 
 const PAGE_ID = process.env.FACEBOOK_PAGE_ID!;
-const ACCESS_TOKEN = process.env.FACEBOOK_PAGE_ACCESS_TOKEN!;
+const ACCESS_TOKEN = process.env.FACEBOOK_PAGE_ACCESS_TOKEN!; // <- matches your env
 const API_VERSION = process.env.FACEBOOK_API_VERSION || "v21.0";
 
 export type FacebookPost = {
@@ -23,8 +23,9 @@ function buildTitle(message?: string | null): string {
 
 export async function GET() {
   if (!PAGE_ID || !ACCESS_TOKEN) {
+    console.error("FB env missing", { PAGE_ID: !!PAGE_ID, ACCESS_TOKEN: !!ACCESS_TOKEN });
     return NextResponse.json(
-      { error: "FACEBOOK_PAGE_ID or FACEBOOK_ACCESS_TOKEN not configured" },
+      { error: "FACEBOOK_PAGE_ID or FACEBOOK_PAGE_ACCESS_TOKEN not configured" },
       { status: 500 }
     );
   }
@@ -40,22 +41,38 @@ export async function GET() {
   const url = `https://graph.facebook.com/${API_VERSION}/${PAGE_ID}/posts?fields=${fields}&access_token=${ACCESS_TOKEN}&limit=20`;
 
   try {
-    const res = await fetch(url, {
-      // You can tune caching here:
-      // next: { revalidate: 300 },
-      cache: "no-store",
-    });
+    const res = await fetch(url, { cache: "no-store" });
+    const rawText = await res.text();
 
     if (!res.ok) {
-      const text = await res.text();
-      console.error("Facebook API error:", res.status, text);
-      return NextResponse.json(
-        { error: "Failed to fetch Facebook posts" },
-        { status: 500 }
-      );
+      console.error("Facebook API raw error:", res.status, rawText);
+
+      // Default error response
+      let status = 502;
+      let errorMsg = "Failed to fetch Facebook posts";
+
+      // Try to parse Facebook JSON error and detect expired token
+      try {
+        const payload = JSON.parse(rawText);
+        const fbError = payload?.error;
+
+        if (fbError) {
+          // Token expired / invalid (common: code 190, subcode 463)
+          if (fbError.code === 190) {
+            status = 401;
+            errorMsg = "Facebook access token invalid or expired";
+          } else {
+            errorMsg = fbError.message || errorMsg;
+          }
+        }
+      } catch {
+        // ignore JSON parse failure, keep defaults
+      }
+
+      return NextResponse.json({ error: errorMsg }, { status });
     }
 
-    const json = await res.json();
+    const json = JSON.parse(rawText);
 
     const posts: FacebookPost[] = (json.data || []).map((p: any) => ({
       id: p.id,
@@ -66,7 +83,6 @@ export async function GET() {
       date: p.created_time,
     }));
 
-    // Sort newest → oldest
     posts.sort(
       (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
     );

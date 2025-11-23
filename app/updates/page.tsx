@@ -10,9 +10,7 @@ export const metadata = {
 function formatDateParts(dateStr: string) {
   const d = new Date(dateStr);
   const day = d.toLocaleDateString("en-IN", { day: "2-digit" });
-  const month = d
-    .toLocaleDateString("en-IN", { month: "short" })
-    .toUpperCase();
+  const month = d.toLocaleDateString("en-IN", { month: "short" }).toUpperCase();
   const year = d.getFullYear();
   return { day, month, year };
 }
@@ -28,8 +26,9 @@ async function getFacebookUpdates(): Promise<FacebookPost[]> {
   );
 
   if (!res.ok) {
-    console.error("Failed to fetch /api/facebook-posts", await res.text());
-    return [];
+    const data = await res.json().catch(() => null);
+    const msg = data?.error || "Updates currently unavailable.";
+    // show msg somewhere in the UI instead of crashing
   }
 
   return res.json();
@@ -44,9 +43,7 @@ export default async function UpdatesPage() {
       {/* Page header / breadcrumb */}
       <section className="border-b border-gray-200 bg-gray-50 dark:border-gray-700 dark:bg-gray-800/60">
         <div className="mx-auto flex max-w-6xl flex-col gap-2 px-4 py-8">
-          <h1 className="text-3xl font-bold tracking-wide uppercase">
-            Blog
-          </h1>
+          <h1 className="text-3xl font-bold tracking-wide uppercase">Blog</h1>
           <p className="text-sm text-gray-500 dark:text-gray-400">
             Home{" "}
             <span className="mx-1 text-gray-400 dark:text-gray-500">/</span>{" "}
