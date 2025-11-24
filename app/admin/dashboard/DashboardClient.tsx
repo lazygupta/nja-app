@@ -148,6 +148,7 @@ export default function DashboardClient({ members }: Props) {
                           type="text"
                           className="border text-xs rounded-md px-2 py-1 bg-white dark:bg-neutral-900"
                           placeholder="e.g. State Coordinator"
+                          required
                           value={
                             designationDrafts[m._id] ??
                             m.finalDesignation ??
@@ -240,7 +241,7 @@ export default function DashboardClient({ members }: Props) {
                         className="h-7 px-2 py-1 text-xs"
                         onClick={() => openPreview(m.ugCert!, "UG Certificate")}
                       >
-                        View UG Cert
+                        View Education Certificate
                       </Button>
                     )}
                     {m.characterCert && (
@@ -252,7 +253,7 @@ export default function DashboardClient({ members }: Props) {
                           openPreview(m.characterCert!, "Character Certificate")
                         }
                       >
-                        View Character Cert
+                        View Press Card Certificate
                       </Button>
                     )}
                   </div>
