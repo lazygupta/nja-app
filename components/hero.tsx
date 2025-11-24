@@ -8,14 +8,23 @@ export function Hero() {
 
         {/* LEFT CONTENT */}
         <div className="flex flex-col justify-center">
-          <h1 className="text-3xl font-bold leading-tight tracking-tight md:text-4xl">
+          <h1 className="text-3xl font-bold tracking-tight md:text-4xl">
             National Journalist Association
           </h1>
 
-          <p className="mt-4 text-base leading-relaxed text-muted-foreground">
-            National Journalist Association is a national association 
-            dedicated to preserving and protecting the freedom of web journalists 
-            and improving the quality of online news content through professional standards.
+          <p className="mt-3 text-primary font-semibold tracking-wide text-sm uppercase">
+            (Registered under Trust Act 1882 – Regd. No. 48/2020)
+          </p>
+
+          <p className="mt-4 leading-relaxed text-muted-foreground">
+            The <strong>National Journalist Association</strong> is a national-level 
+            organization dedicated to safeguarding the rights, dignity, security, 
+            and responsibilities of journalists, media professionals, and 
+            social communicators across India.
+          </p>
+
+          <p className="mt-3 italic text-primary">
+            “नैतिक पत्रकारिता ही सच्चे लोकतंत्र की नींव है”
           </p>
 
           <p className="mt-4 text-sm font-semibold text-primary">
