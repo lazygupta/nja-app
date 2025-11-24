@@ -49,7 +49,7 @@ export default function MultiFileUploader({
     { label: "Upload Signature*", field: "signature" },
     { label: "Upload Aadhar / Voter ID*", field: "idProof" },
     { label: "Upload Graduation Certificate*", field: "ugCert" },
-    { label: "Upload Character Certificate*", field: "characterCert" },
+    { label: "Upload Press Card Certificate*", field: "characterCert" },
   ];
 
   return (

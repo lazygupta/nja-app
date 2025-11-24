@@ -187,7 +187,7 @@ export default function JoinPage() {
                     />
                   </div>
 
-                  <div className="space-y-1.5">
+                  {/* <div className="space-y-1.5">
                     <Label htmlFor="correspondenceAddress">
                       Correspondence Address*
                     </Label>
@@ -197,7 +197,7 @@ export default function JoinPage() {
                       onChange={handleChange}
                       required
                     />
-                  </div>
+                  </div> */}
 
                   {/* COUNTRY → STATE → CITY */}
                   <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
@@ -364,7 +364,7 @@ export default function JoinPage() {
                         </SelectContent>
                       </Select>
                     </div>
-                    <div className="space-y-1.5">
+                    {/* <div className="space-y-1.5">
                       <Label>Marital Status</Label>
                       <Select
                         onValueChange={(value) =>
@@ -380,7 +380,7 @@ export default function JoinPage() {
                           <SelectItem value="divorced">Divorced</SelectItem>
                         </SelectContent>
                       </Select>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
 
@@ -417,14 +417,14 @@ export default function JoinPage() {
                       required
                     />
                   </div>
-                  <div className="space-y-1.5">
+                  {/* <div className="space-y-1.5">
                     <Label htmlFor="website">Website</Label>
                     <Input
                       id="website"
                       name="website"
                       onChange={handleChange}
                     />
-                  </div>
+                  </div> */}
                 </div>
 
                 <div className="grid gap-4 md:grid-cols-2">
@@ -470,7 +470,7 @@ export default function JoinPage() {
                   <h3 className="text-lg font-semibold">PERSONAL DETAILS</h3>
 
                   <div className="grid gap-4 md:grid-cols-2">
-                    <div className="space-y-1.5">
+                    {/* <div className="space-y-1.5">
                       <Label htmlFor="mother">Mother&apos;s Name*</Label>
                       <Input
                         id="mother"
@@ -478,7 +478,7 @@ export default function JoinPage() {
                         onChange={handleChange}
                         required
                       />
-                    </div>
+                    </div> */}
                     <div className="space-y-1.5">
                       <Label htmlFor="father">Father&apos;s Name*</Label>
                       <Input
@@ -491,14 +491,14 @@ export default function JoinPage() {
                   </div>
 
                   <div className="grid gap-4 md:grid-cols-2">
-                    <div className="space-y-1.5">
+                    {/* <div className="space-y-1.5">
                       <Label htmlFor="spouse">Spouse&apos;s Name</Label>
                       <Input
                         id="spouse"
                         name="spouse"
                         onChange={handleChange}
                       />
-                    </div>
+                    </div> */}
                     <div className="space-y-1.5">
                       <Label htmlFor="children">No. of Children</Label>
                       <Input
@@ -530,6 +530,25 @@ export default function JoinPage() {
                       <SelectItem value="yes">Yes</SelectItem>
                     </SelectContent>
                   </Select>
+                </div>
+
+                <div className="grid gap-4 md:grid-cols-2">
+                  <div className="space-y-1.5">
+                    <Label htmlFor="facebook">Referral Person</Label>
+                    <Input
+                      id="facebook"
+                      name="facebook"
+                      onChange={handleChange}
+                    />
+                  </div>
+                  <div className="space-y-1.5">
+                    <Label htmlFor="instagram">Instagram ID</Label>
+                    <Input
+                      id="instagram"
+                      name="instagram"
+                      onChange={handleChange}
+                    />
+                  </div>
                 </div>
 
                 {/* FILE UPLOADS */}
@@ -597,19 +616,6 @@ export default function JoinPage() {
                   </ul>
                 </div>
 
-                <div>
-                  <h3 className="font-semibold mb-1">B. For Portal</h3>
-                  <ul className="ml-5 list-disc space-y-1">
-                    <li>
-                      Running for at least one year and domain booked for at
-                      least 2 years.
-                    </li>
-                    <li>
-                      Membership fee ₹ 5000/- (one time) and ₹ 1000/- yearly
-                      (Web Journalist&apos;s Welfare Fund).
-                    </li>
-                  </ul>
-                </div>
               </CardContent>
             </Card>
 
