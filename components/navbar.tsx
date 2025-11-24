@@ -39,7 +39,7 @@ const navItems: NavItem[] = [
   { label: "Contact", href: "/contact" },
 ];
 
-const loginItem: NavItem = { label: "Login / Join", href: "/joinUs" };
+const loginItem: NavItem = { label: "Join Us", href: "/joinUs" };
 
 export function Navbar() {
   const pathname = usePathname();
