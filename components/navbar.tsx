@@ -138,7 +138,7 @@ export function Navbar() {
                 <SheetTitle>Menu</SheetTitle>
               </SheetHeader>
 
-              <nav className="flex flex-1 flex-col gap-4 text-sm font-medium">
+              <nav className="flex flex-1 m-4 flex-col gap-4 text-sm font-medium">
                 {navItems.map((item) =>
                   item.children ? (
                     <div key={item.label} className="flex flex-col gap-1">

@@ -12,7 +12,6 @@ export default function Home() {
       <div className="py-10">
         <Carousel />
       </div>
-
       <StatsSection />
     </>
   );
