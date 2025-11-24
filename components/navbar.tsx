@@ -27,14 +27,14 @@ type NavItem = { label: string; href?: string; children?: NavChild[] };
 const navItems: NavItem[] = [
   { label: "Home", href: "/" },
   { label: "About Us", href: "/about" },
-  // {
-  //   label: "Our Team",
-  //   children: [
-  //     { label: "Patrons", href: "/patron" },
-  //     { label: "All Members", href: "/all-members" },
-  //   ],
-  // },
-  { label: "Our Team", href: "/all-members" },
+  {
+    label: "Our Team",
+    children: [
+      { label: "Our Trustee", href: "/trustee" },
+      { label: "All Members", href: "/all-members" },
+    ],
+  },
+  // { label: "Our Team", href: "/all-members" },
   { label: "Updates", href: "/updates" },
   { label: "Contact", href: "/contact" },
 ];

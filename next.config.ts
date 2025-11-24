@@ -12,6 +12,14 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "**.facebook.com", // optional, for other fb images
       },
+      {
+        protocol: "https",
+        hostname: "utfs.io",
+      },
+      {
+        protocol: "https",
+        hostname: "*.utfs.io", // fallback for subdomains
+      }
     ],
   },
 };

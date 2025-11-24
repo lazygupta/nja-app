@@ -22,6 +22,8 @@ import {
 } from "@/components/ui/card";
 import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
 import MultiFileUploader from "@/components/MultiFileUploader";
+import { redirect } from "next/dist/server/api-utils";
+import { useRouter } from "next/navigation";
 
 type FormState = Record<string, string>;
 
@@ -34,6 +36,10 @@ export default function JoinPage() {
 
   const [selectedCountryCode, setSelectedCountryCode] = useState("IN");
   const [selectedStateCode, setSelectedStateCode] = useState("");
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const router = useRouter();
 
   // Load country list
   useEffect(() => {
@@ -78,7 +84,7 @@ export default function JoinPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
+    setIsSubmitting(true); // 🔥 disable button
     try {
       const res = await fetch("/api/join", {
         method: "POST",
@@ -90,11 +96,14 @@ export default function JoinPage() {
 
       if (data.success) {
         alert("Form Submitted Successfully!");
+        router.push("/");
       } else {
         alert("Error submitting form.");
       }
     } catch (error) {
       alert("Something went wrong.");
+    } finally {
+      setIsSubmitting(false); // 🔥 re-enable after submit completes
     }
   };
 
@@ -186,18 +195,6 @@ export default function JoinPage() {
                       required
                     />
                   </div>
-
-                  {/* <div className="space-y-1.5">
-                    <Label htmlFor="correspondenceAddress">
-                      Correspondence Address*
-                    </Label>
-                    <Input
-                      id="correspondenceAddress"
-                      name="correspondenceAddress"
-                      onChange={handleChange}
-                      required
-                    />
-                  </div> */}
 
                   {/* COUNTRY → STATE → CITY */}
                   <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
@@ -311,15 +308,7 @@ export default function JoinPage() {
                   </div>
 
                   <div className="grid gap-4 md:grid-cols-2">
-                    <div className="space-y-1.5">
-                      <Label htmlFor="religion">Religion*</Label>
-                      <Input
-                        id="religion"
-                        name="religion"
-                        onChange={handleChange}
-                        required
-                      />
-                    </div>
+                    
 
                     <div className="space-y-1.5">
                       <Label>Gender*</Label>
@@ -339,9 +328,6 @@ export default function JoinPage() {
                         </SelectContent>
                       </Select>
                     </div>
-                  </div>
-
-                  <div className="grid gap-4 md:grid-cols-2">
                     <div className="space-y-1.5">
                       <Label>Blood Group*</Label>
                       <Select
@@ -364,24 +350,8 @@ export default function JoinPage() {
                         </SelectContent>
                       </Select>
                     </div>
-                    {/* <div className="space-y-1.5">
-                      <Label>Marital Status</Label>
-                      <Select
-                        onValueChange={(value) =>
-                          handleSelectChange("maritalStatus", value)
-                        }
-                      >
-                        <SelectTrigger className="w-full">
-                          <SelectValue placeholder="Select" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="married">Married</SelectItem>
-                          <SelectItem value="unmarried">Unmarried</SelectItem>
-                          <SelectItem value="divorced">Divorced</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div> */}
                   </div>
+
                 </div>
 
                 {/* CONTACT DETAILS */}
@@ -417,25 +387,18 @@ export default function JoinPage() {
                       required
                     />
                   </div>
-                  {/* <div className="space-y-1.5">
-                    <Label htmlFor="website">Website</Label>
-                    <Input
-                      id="website"
-                      name="website"
-                      onChange={handleChange}
-                    />
-                  </div> */}
-                </div>
-
-                <div className="grid gap-4 md:grid-cols-2">
                   <div className="space-y-1.5">
-                    <Label htmlFor="designation">Designation</Label>
+                    <Label htmlFor="organisation">Organisation</Label>
                     <Input
-                      id="designation"
-                      name="designation"
+                      id="organisation"
+                      name="organisation"
                       onChange={handleChange}
                     />
                   </div>
+                </div>
+
+                <div className="grid gap-4 md:grid-cols-2">
+                  
                   <div className="space-y-1.5">
                     <Label htmlFor="twitter">Twitter ID</Label>
                     <Input
@@ -444,9 +407,6 @@ export default function JoinPage() {
                       onChange={handleChange}
                     />
                   </div>
-                </div>
-
-                <div className="grid gap-4 md:grid-cols-2">
                   <div className="space-y-1.5">
                     <Label htmlFor="facebook">Facebook ID</Label>
                     <Input
@@ -455,6 +415,10 @@ export default function JoinPage() {
                       onChange={handleChange}
                     />
                   </div>
+                </div>
+
+                <div className="grid gap-4 md:grid-cols-2">
+                  
                   <div className="space-y-1.5">
                     <Label htmlFor="instagram">Instagram ID</Label>
                     <Input
@@ -470,15 +434,6 @@ export default function JoinPage() {
                   <h3 className="text-lg font-semibold">PERSONAL DETAILS</h3>
 
                   <div className="grid gap-4 md:grid-cols-2">
-                    {/* <div className="space-y-1.5">
-                      <Label htmlFor="mother">Mother&apos;s Name*</Label>
-                      <Input
-                        id="mother"
-                        name="mother"
-                        onChange={handleChange}
-                        required
-                      />
-                    </div> */}
                     <div className="space-y-1.5">
                       <Label htmlFor="father">Father&apos;s Name*</Label>
                       <Input
@@ -488,32 +443,7 @@ export default function JoinPage() {
                         required
                       />
                     </div>
-                  </div>
-
-                  <div className="grid gap-4 md:grid-cols-2">
-                    {/* <div className="space-y-1.5">
-                      <Label htmlFor="spouse">Spouse&apos;s Name</Label>
-                      <Input
-                        id="spouse"
-                        name="spouse"
-                        onChange={handleChange}
-                      />
-                    </div> */}
                     <div className="space-y-1.5">
-                      <Label htmlFor="children">No. of Children</Label>
-                      <Input
-                        id="children"
-                        name="children"
-                        type="number"
-                        min={0}
-                        onChange={handleChange}
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                {/* CRIMINAL CASE */}
-                <div className="space-y-1.5">
                   <Label>
                     Whether convicted in any case / FIR / Criminal Case*
                   </Label>
@@ -531,21 +461,16 @@ export default function JoinPage() {
                     </SelectContent>
                   </Select>
                 </div>
+                  </div>
+
+                </div>
 
                 <div className="grid gap-4 md:grid-cols-2">
                   <div className="space-y-1.5">
-                    <Label htmlFor="facebook">Referral Person</Label>
+                    <Label htmlFor="facebook">How did you hear about us? (If through a person, mention their name)</Label>
                     <Input
                       id="facebook"
                       name="facebook"
-                      onChange={handleChange}
-                    />
-                  </div>
-                  <div className="space-y-1.5">
-                    <Label htmlFor="instagram">Instagram ID</Label>
-                    <Input
-                      id="instagram"
-                      name="instagram"
                       onChange={handleChange}
                     />
                   </div>
@@ -572,17 +497,13 @@ export default function JoinPage() {
                 </div>
 
                 <div className="flex flex-col gap-3 pt-2">
-                  <Button type="submit" className="w-fit">
-                    Submit
-                  </Button>
-
-                  {/* <Button
-                    variant="link"
-                    type="button"
-                    className="px-0 text-primary"
+                  <Button
+                    type="submit"
+                    className="w-fit"
+                    disabled={isSubmitting}
                   >
-                    Click here for Login
-                  </Button> */}
+                    {isSubmitting ? "Submitting..." : "Submit"}
+                  </Button>
                 </div>
               </form>
             </CardContent>
@@ -610,12 +531,11 @@ export default function JoinPage() {
                       criminal proceeding.
                     </li>
                     <li>
-                      Membership fee ₹ 500/- (one time) and ₹ 100/- yearly (Web
-                      Journalist&apos;s Welfare Fund).
+                      Membership fee ₹ 100/- (yearly) (National
+                      Journalist Association&apos;s Welfare Fund).
                     </li>
                   </ul>
                 </div>
-
               </CardContent>
             </Card>
 
@@ -648,17 +568,6 @@ export default function JoinPage() {
                   reference number and date at the back of the hard copy.
                 </p>
 
-                <p className="text-xs text-muted-foreground">
-                  <span>
-                    National Office (Rashtriya Karyalaya):
-                    <br />
-                    Sanjay Kumar, A28C Gali No-3,
-                    <br />
-                    AA Block Abhiyakti Bihar, Shiv Bihar,
-                    <br />
-                    Delhi – 110094
-                  </span>
-                </p>
               </CardContent>
             </Card>
           </div>
