@@ -4,7 +4,6 @@ import DashboardClient from "./DashboardClient";
 
 export default async function AdminDashboardPage() {
   const members = await getAllMembers();
-
   return (
     <main className="min-h-screen p-8 space-y-6">
       <div className="flex items-center justify-between max-w-6xl mx-auto">
