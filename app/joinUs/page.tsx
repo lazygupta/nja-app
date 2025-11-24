@@ -1,9 +1,10 @@
 "use client";
 
-import { useState, ChangeEvent } from "react";
+import { useState, ChangeEvent, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Country, State, City } from "country-state-city";
 import {
   Select,
   SelectTrigger,
@@ -11,10 +12,7 @@ import {
   SelectContent,
   SelectItem,
 } from "@/components/ui/select";
-import {
-  RadioGroup,
-  RadioGroupItem,
-} from "@/components/ui/radio-group";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import {
   Card,
   CardHeader,
@@ -22,16 +20,46 @@ import {
   CardDescription,
   CardContent,
 } from "@/components/ui/card";
-import {
-  Alert,
-  AlertTitle,
-  AlertDescription,
-} from "@/components/ui/alert";
+import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
+import MultiFileUploader from "@/components/MultiFileUploader";
 
 type FormState = Record<string, string>;
 
 export default function JoinPage() {
   const [form, setForm] = useState<FormState>({});
+
+  const [countries, setCountries] = useState<any[]>([]);
+  const [states, setStates] = useState<any[]>([]);
+  const [cities, setCities] = useState<any[]>([]);
+
+  const [selectedCountryCode, setSelectedCountryCode] = useState("IN");
+  const [selectedStateCode, setSelectedStateCode] = useState("");
+
+  // Load country list
+  useEffect(() => {
+    setCountries(Country.getAllCountries());
+  }, []);
+
+  // Load states when country changes
+  useEffect(() => {
+    if (!selectedCountryCode) return;
+
+    const stateList = State.getStatesOfCountry(selectedCountryCode);
+    setStates(stateList);
+    setCities([]);
+    setSelectedStateCode("");
+  }, [selectedCountryCode]);
+
+  // Load cities when state changes
+  useEffect(() => {
+    if (!selectedStateCode) return;
+
+    const cityList = City.getCitiesOfState(
+      selectedCountryCode,
+      selectedStateCode
+    );
+    setCities(cityList);
+  }, [selectedStateCode]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -42,26 +70,36 @@ export default function JoinPage() {
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // const handleSubmit = (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   // TODO: hook this to an API route
+  //   console.log("Form submitted", form);
+  // };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: hook this to an API route
-    console.log("Form submitted", form);
+
+    try {
+      const res = await fetch("/api/join", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+
+      const data = await res.json();
+
+      if (data.success) {
+        alert("Form Submitted Successfully!");
+      } else {
+        alert("Error submitting form.");
+      }
+    } catch (error) {
+      alert("Something went wrong.");
+    }
   };
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      {/* Top header / breadcrumb (optional) */}
-      {/* <section className="border-b border-border bg-muted/40">
-        <div className="mx-auto max-w-6xl px-4 py-6">
-          <h1 className="text-3xl font-bold uppercase tracking-wide">
-            Join Us
-          </h1>
-          <p className="text-sm text-muted-foreground">
-            Home <span className="mx-1 text-border">/</span> Join Us
-          </p>
-        </div>
-      </section> */}
-
       <main className="mx-auto max-w-7xl px-4 py-10 space-y-6">
         {/* Red warning bar from original design */}
         <Alert className="border-destructive/60 bg-destructive/5 text-foreground">
@@ -81,12 +119,12 @@ export default function JoinPage() {
               <CardTitle className="text-center uppercase tracking-wide">
                 New Member Register Here
               </CardTitle>
-              <Button
+              {/* <Button
                 variant="outline"
                 className="w-full border-primary text-primary font-semibold"
               >
                 REGISTERED MEMBER CLICK HERE FOR LOGIN
-              </Button>
+              </Button> */}
               <CardDescription className="text-xs text-center text-muted-foreground">
                 Fields marked with * are mandatory.
               </CardDescription>
@@ -96,9 +134,7 @@ export default function JoinPage() {
               <form onSubmit={handleSubmit} className="space-y-6">
                 {/* MEMBERSHIP TYPE */}
                 <div className="space-y-2">
-                  <Label className="font-semibold">
-                    MEMBERSHIP TYPE
-                  </Label>
+                  <Label className="font-semibold">MEMBERSHIP TYPE</Label>
                   <RadioGroup
                     defaultValue="individual"
                     onValueChange={(val) =>
@@ -107,12 +143,11 @@ export default function JoinPage() {
                     className="flex flex-wrap gap-6"
                   >
                     <div className="flex items-center space-x-2">
-                      <RadioGroupItem value="individual" id="membership-individual" />
+                      <RadioGroupItem
+                        value="individual"
+                        id="membership-individual"
+                      />
                       <Label htmlFor="membership-individual">Individual</Label>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <RadioGroupItem value="portal" id="membership-portal" />
-                      <Label htmlFor="membership-portal">Portal</Label>
                     </div>
                   </RadioGroup>
                 </div>
@@ -143,9 +178,7 @@ export default function JoinPage() {
                   </div>
 
                   <div className="space-y-1.5">
-                    <Label htmlFor="permanentAddress">
-                      Permanent Address*
-                    </Label>
+                    <Label htmlFor="permanentAddress">Permanent Address*</Label>
                     <Input
                       id="permanentAddress"
                       name="permanentAddress"
@@ -164,6 +197,96 @@ export default function JoinPage() {
                       onChange={handleChange}
                       required
                     />
+                  </div>
+
+                  {/* COUNTRY → STATE → CITY */}
+                  <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+                    {/* COUNTRY */}
+                    <div className="space-y-1.5 w-full">
+                      <Label>Country*</Label>
+                      <Select
+                        defaultValue="IN"
+                        onValueChange={(value) => {
+                          setSelectedCountryCode(value);
+                          handleSelectChange("country", value);
+                        }}
+                      >
+                        <SelectTrigger className="w-full h-11">
+                          <SelectValue placeholder="Select Country" />
+                        </SelectTrigger>
+
+                        <SelectContent>
+                          {[
+                            "IN", // India
+                            "NP", // Nepal
+                            "BD", // Bangladesh
+                            "LK", // Sri Lanka
+                            "MM", // Myanmar
+                            "BT", // Bhutan
+                            "CN", // China
+                            "ID", // Indonesia
+                            "MV", // Maldives
+                          ]
+                            .map((code) =>
+                              countries.find((c) => c.isoCode === code)
+                            )
+                            .filter(Boolean)
+                            .map((c) => (
+                              <SelectItem key={c.isoCode} value={c.isoCode}>
+                                {c.name}
+                              </SelectItem>
+                            ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+
+                    {/* STATE */}
+                    <div className="space-y-1.5 w-full">
+                      <Label>State*</Label>
+                      <Select
+                        defaultValue="BR"
+                        disabled={!states.length}
+                        onValueChange={(value) => {
+                          setSelectedStateCode(value);
+                          handleSelectChange("state", value);
+                        }}
+                      >
+                        <SelectTrigger className="w-full h-11">
+                          <SelectValue placeholder="Select State" />
+                        </SelectTrigger>
+
+                        <SelectContent>
+                          {states.map((s) => (
+                            <SelectItem key={s.isoCode} value={s.isoCode}>
+                              {s.name}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+
+                    {/* CITY */}
+                    <div className="space-y-1.5 w-full">
+                      <Label>City*</Label>
+                      <Select
+                        disabled={!cities.length}
+                        onValueChange={(value) =>
+                          handleSelectChange("city", value)
+                        }
+                      >
+                        <SelectTrigger className="w-full h-11">
+                          <SelectValue placeholder="Select City" />
+                        </SelectTrigger>
+
+                        <SelectContent>
+                          {cities.map((city) => (
+                            <SelectItem key={city.name} value={city.name}>
+                              {city.name}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
                   </div>
 
                   <div className="grid gap-4 md:grid-cols-2">
@@ -197,6 +320,7 @@ export default function JoinPage() {
                         required
                       />
                     </div>
+
                     <div className="space-y-1.5">
                       <Label>Gender*</Label>
                       <Select
@@ -204,9 +328,10 @@ export default function JoinPage() {
                           handleSelectChange("gender", value)
                         }
                       >
-                        <SelectTrigger>
+                        <SelectTrigger className="w-full">
                           <SelectValue placeholder="Select" />
                         </SelectTrigger>
+
                         <SelectContent>
                           <SelectItem value="male">Male</SelectItem>
                           <SelectItem value="female">Female</SelectItem>
@@ -224,7 +349,7 @@ export default function JoinPage() {
                           handleSelectChange("bloodGroup", value)
                         }
                       >
-                        <SelectTrigger>
+                        <SelectTrigger className="w-full">
                           <SelectValue placeholder="Select" />
                         </SelectTrigger>
                         <SelectContent>
@@ -246,7 +371,7 @@ export default function JoinPage() {
                           handleSelectChange("maritalStatus", value)
                         }
                       >
-                        <SelectTrigger>
+                        <SelectTrigger className="w-full">
                           <SelectValue placeholder="Select" />
                         </SelectTrigger>
                         <SelectContent>
@@ -293,24 +418,22 @@ export default function JoinPage() {
                     />
                   </div>
                   <div className="space-y-1.5">
-                    <Label htmlFor="website">Website*</Label>
+                    <Label htmlFor="website">Website</Label>
                     <Input
                       id="website"
                       name="website"
                       onChange={handleChange}
-                      required
                     />
                   </div>
                 </div>
 
                 <div className="grid gap-4 md:grid-cols-2">
                   <div className="space-y-1.5">
-                    <Label htmlFor="designation">Designation*</Label>
+                    <Label htmlFor="designation">Designation</Label>
                     <Input
                       id="designation"
                       name="designation"
                       onChange={handleChange}
-                      required
                     />
                   </div>
                   <div className="space-y-1.5">
@@ -411,48 +534,22 @@ export default function JoinPage() {
 
                 {/* FILE UPLOADS */}
                 <div className="space-y-4">
-                  <div className="space-y-1.5">
-                    <Label htmlFor="photo">Upload Photo*</Label>
-                    <Input
-                      id="photo"
-                      type="file"
-                      accept=".jpg,.jpeg,.png,.gif"
-                    />
-                  </div>
-                  <div className="space-y-1.5">
-                    <Label htmlFor="signature">Upload Signature*</Label>
-                    <Input
-                      id="signature"
-                      type="file"
-                      accept=".jpg,.jpeg,.png,.gif"
-                    />
-                  </div>
-                  <div className="space-y-1.5">
-                    <Label htmlFor="idProof">Upload Aadhar / Voter ID*</Label>
-                    <Input
-                      id="idProof"
-                      type="file"
-                      accept=".jpg,.jpeg,.png,.gif"
-                    />
-                  </div>
-                  <div className="space-y-1.5">
-                    <Label htmlFor="ugCert">Upload Graduation Certificate*</Label>
-                    <Input
-                      id="ugCert"
-                      type="file"
-                      accept=".jpg,.jpeg,.png,.gif"
-                    />
-                  </div>
-                  <div className="space-y-1.5">
-                    <Label htmlFor="characterCert">
-                      Upload Character Certificate*
-                    </Label>
-                    <Input
-                      id="characterCert"
-                      type="file"
-                      accept=".jpg,.jpeg,.png,.gif"
-                    />
-                  </div>
+                  <MultiFileUploader
+                    onComplete={(files) => {
+                      if (files.photo) handleSelectChange("photo", files.photo);
+                      if (files.signature)
+                        handleSelectChange("signature", files.signature);
+                      if (files.idProof)
+                        handleSelectChange("idProof", files.idProof);
+                      if (files.ugCert)
+                        handleSelectChange("ugCert", files.ugCert);
+                      if (files.characterCert)
+                        handleSelectChange(
+                          "characterCert",
+                          files.characterCert
+                        );
+                    }}
+                  />
                 </div>
 
                 <div className="flex flex-col gap-3 pt-2">
@@ -460,13 +557,13 @@ export default function JoinPage() {
                     Submit
                   </Button>
 
-                  <Button
+                  {/* <Button
                     variant="link"
                     type="button"
                     className="px-0 text-primary"
                   >
                     Click here for Login
-                  </Button>
+                  </Button> */}
                 </div>
               </form>
             </CardContent>
@@ -494,8 +591,8 @@ export default function JoinPage() {
                       criminal proceeding.
                     </li>
                     <li>
-                      Membership fee ₹ 500/- (one time) and ₹ 100/- yearly
-                      (Web Journalist&apos;s Welfare Fund).
+                      Membership fee ₹ 500/- (one time) and ₹ 100/- yearly (Web
+                      Journalist&apos;s Welfare Fund).
                     </li>
                   </ul>
                 </div>
@@ -522,19 +619,15 @@ export default function JoinPage() {
               </CardHeader>
               <CardContent className="space-y-3 text-sm leading-relaxed">
                 <p>
-                  <span className="font-semibold">
-                    Bank Name &amp; Branch:
-                  </span>{" "}
-                  State Bank of India, Main Branch, West of Gandhi Maidan,
-                  Patna.
+                  <span className="font-semibold">Bank Name &amp; Branch:</span>{" "}
+                  State Bank of India
                 </p>
                 <p>
                   <span className="font-semibold">Account No.:</span>{" "}
-                  39069092100
+                  XXXXXXXXXXXX
                 </p>
                 <p>
-                  <span className="font-semibold">IFSC Code:</span>{" "}
-                  SBIN0000152
+                  <span className="font-semibold">IFSC Code:</span> XXXXXXXXXX
                 </p>
 
                 <p className="text-xs text-muted-foreground">
@@ -550,9 +643,15 @@ export default function JoinPage() {
                 </p>
 
                 <p className="text-xs text-muted-foreground">
-                  <span className="font-semibold">Registered office:</span>{" "}
-                  GIIT, 1st Floor, Parijat Complex, Opposite Punjab &amp; Sindh
-                  Bank, Dakbunglow Chauraha, Patna - 800004 (Bihar).
+                  <span>
+                    National Office (Rashtriya Karyalaya):
+                    <br />
+                    Sanjay Kumar, A28C Gali No-3,
+                    <br />
+                    AA Block Abhiyakti Bihar, Shiv Bihar,
+                    <br />
+                    Delhi – 110094
+                  </span>
                 </p>
               </CardContent>
             </Card>
