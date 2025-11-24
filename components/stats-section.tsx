@@ -5,10 +5,10 @@ import { Briefcase, IdCard, Layers, Coffee } from "lucide-react";
 
 export default function StatsSection() {
   const stats = [
-    { label: "PORTAL MEMBER", value: 121, icon: <Briefcase size={28} /> },
-    { label: "MEMBER", value: 229, icon: <IdCard size={28} /> },
-    { label: "PROGRAMME", value: 1, icon: <Layers size={28} /> },
-    { label: "MEETING", value: 30, icon: <Coffee size={28} /> },
+    { label: "EVENTS", value: 15, icon: <Briefcase size={28} /> },
+    { label: "MEMBER", value: 20, icon: <IdCard size={28} /> },
+    { label: "PROGRAMME", value: 30, icon: <Layers size={28} /> },
+    { label: "MEETING", value: 20, icon: <Coffee size={28} /> },
   ];
 
   const [counts, setCounts] = useState(stats.map(() => 0));
@@ -16,76 +16,70 @@ export default function StatsSection() {
   useEffect(() => {
     const intervals = stats.map((stat, index) =>
       setInterval(() => {
-        setCounts(prev => {
+        setCounts((prev) => {
           const newCounts = [...prev];
           if (newCounts[index] < stat.value) newCounts[index] += 1;
           return newCounts;
         });
-      }, 20)
+      }, 18)
     );
 
-    return () => intervals.forEach(i => clearInterval(i));
+    return () => intervals.forEach((i) => clearInterval(i));
   }, []);
 
   return (
     <section
-  className="
-    w-full 
-    py-16 
-    text-center 
-    transition-all duration-500
-    bg-linear-to-r from-[#d5d5d5] via-[#bdbdbd] to-[#d5d5d5]
-    dark:bg-linear-to-r dark:from-[#1a1a1a] dark:via-[#282828] dark:to-[#1a1a1a]
-  "
->
-  {/* NEW WRAPPER ADDED HERE */}
-  <div className="max-w-7xl mx-auto px-4">
+      className="
+        w-full py-20 text-center
+        bg-linear-to-b from-[#e6e6e6] to-[#cfcfcf]
+        dark:bg-linear-to-b dark:from-[#111] dark:to-[#1b1b1b]
+        transition-all duration-500
+      "
+    >
+      <div className="max-w-7xl mx-auto px-4">
+        <h2 className="mb-14 text-3xl font-extrabold tracking-wide text-black dark:text-white">
+          OUR STATS
+        </h2>
 
-    <h2 className="mb-12 text-3xl font-bold tracking-wide text-black dark:text-white">
-      OUR STATS
-    </h2>
+        <div className="grid max-w-6xl mx-auto grid-cols-1 gap-8 md:grid-cols-4">
+          {stats.map((stat, index) => (
+            <div
+              key={index}
+              className="
+                relative rounded-2xl p-8 text-center shadow-lg
+                border border-gray-300/40 dark:border-white/10
+                bg-white/40 dark:bg-white/5 backdrop-blur-xl
+                transition-all duration-300 
+                hover:shadow-2xl hover:scale-[1.03]
+                hover:border-gray-400/60 dark:hover:border-white/20
+              "
+            >
+              {/* Soft gradient frame */}
+              <div
+                className="
+                  absolute inset-0 -z-10 rounded-2xl 
+                  bg-linear-to-br from-white/30 to-transparent
+                  dark:from-white/10 dark:to-transparent
+                "
+              />
 
-    <div className="mx-auto grid max-w-6xl grid-cols-1 gap-8 md:grid-cols-4">
-      
-      {stats.map((stat, index) => (
-        <div
-          key={index}
-          className="
-            relative rounded-xl border-2 
-            border-blue-400 dark:border-blue-500 
-            p-8 text-center shadow-xl
+              {/* Icon */}
+              <div className="mb-4 flex justify-center text-gray-700 dark:text-gray-300">
+                {stat.icon}
+              </div>
 
-            backdrop-blur-md bg-white/20 dark:bg-black/20
-            transition-all duration-500
-          "
-        >
-          {/* Glow Border */}
-          <div
-            className="
-              absolute inset-0 -z-10 rounded-xl 
-              bg-blue-500/20 dark:bg-blue-400/20 
-              blur-xl
-            "
-          ></div>
+              {/* Counter */}
+              <div className="text-5xl font-extrabold text-gray-900 dark:text-white">
+                {counts[index]}
+              </div>
 
-          <div className="mb-4 flex justify-center text-blue-600 dark:text-blue-400">
-            {stat.icon}
-          </div>
-
-          <div className="text-5xl font-bold text-black dark:text-white">
-            {counts[index]}
-          </div>
-
-          <div className="mt-2 text-sm tracking-wide text-black/70 dark:text-white/70">
-            {stat.label}
-          </div>
+              <div className="mt-2 text-sm tracking-wide text-gray-600 dark:text-gray-300">
+                {stat.label}
+              </div>
+            </div>
+          ))}
         </div>
-      ))}
-
-    </div>
-  </div>
-  {/* WRAPPER ENDS */}
-</section>
-
+      </div>
+    </section>
   );
 }
