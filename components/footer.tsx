@@ -125,7 +125,7 @@ export function Footer() {
           </p>
           <p className="text-center md:text-right">
             Website managed by{" "}
-            <span className="font-medium text-zinc-300">Rakesh Kumar Gupta</span>
+            <span className="font-medium text-zinc-300">Keshav Enterprises</span>
           </p>
         </div>
       </div>

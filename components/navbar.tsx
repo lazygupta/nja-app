@@ -20,6 +20,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { ModeToggle } from "@/components/mode-toggle";
+import { useState } from "react";
 
 type NavChild = { label: string; href: string };
 type NavItem = { label: string; href?: string; children?: NavChild[] };
@@ -43,6 +44,9 @@ const loginItem: NavItem = { label: "Join Us", href: "/joinUs" };
 
 export function Navbar() {
   const pathname = usePathname();
+
+  const [open, setOpen] = useState(false);
+
 
   const isActive = (href?: string) =>
     href && (href === "/" ? pathname === "/" : pathname.startsWith(href));
@@ -126,7 +130,7 @@ export function Navbar() {
         {/* Mobile actions */}
         <div className="flex items-center gap-3 lg:hidden">
           <ModeToggle />
-          <Sheet>
+          <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild>
               <Button variant="outline" size="icon" className="rounded-full">
                 <Menu className="h-5 w-5" />
@@ -149,6 +153,7 @@ export function Navbar() {
                         <Link
                           key={child.label}
                           href={child.href}
+                          onClick={() => setOpen(false)}
                           className={`rounded-md px-2 py-1.5 ${
                             isActive(child.href)
                               ? "bg-primary/10 text-primary"
@@ -163,6 +168,7 @@ export function Navbar() {
                     <Link
                       key={item.label}
                       href={item.href ?? "#"}
+                      onClick={() => setOpen(false)}
                       className={`rounded-md px-2 py-1.5 ${
                         isActive(item.href)
                           ? "bg-primary/10 text-primary"
@@ -175,8 +181,9 @@ export function Navbar() {
                 )}
 
                 <div className="mt-2">
-                  <Button className="w-full rounded-full" asChild>
+                  <Button onClick={() => setOpen(false)} className="w-full rounded-full" asChild>
                     <Link href={loginItem.href ?? "#"}>{loginItem.label}</Link>
+
                   </Button>
                 </div>
               </nav>

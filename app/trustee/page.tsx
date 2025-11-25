@@ -67,7 +67,7 @@ const MEMBERS: Member[] = [
   },
   {
     id: 9,
-    name: "Din Bandhu Singh",
+    name: "Deen Bandhu Singh",
     portal: "NJA Trust",
     designation: "Trustee Member",
     status: "Active",

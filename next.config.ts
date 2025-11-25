@@ -19,6 +19,10 @@ const nextConfig: NextConfig = {
       {
         protocol: "https",
         hostname: "*.utfs.io", // fallback for subdomains
+      },
+      {
+        protocol: "https",
+        hostname: "*.dpqn4feq9d.ufs.sh", // fallback for subdomains
       }
     ],
   },

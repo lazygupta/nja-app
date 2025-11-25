@@ -3,6 +3,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { Navbar } from "@/components/navbar";
 import "./globals.css";
 import { Footer } from "@/components/footer";
+import { RouteLoaderWrapper } from "@/components/route-loader-wrapper";
 
 export const metadata: Metadata = {
   title: "National Journalist Association",
@@ -14,7 +15,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="min-h-screen bg-background text-foreground">
         <ThemeProvider>
           <Navbar />
-          {children}
+          <RouteLoaderWrapper>
+            {children}
+          </RouteLoaderWrapper>
           <Footer />
         </ThemeProvider>
       </body>

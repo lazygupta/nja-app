@@ -40,17 +40,6 @@ export default async function UpdatesPage() {
 
   return (
     <div className="min-h-screen bg-white text-gray-900 dark:bg-gray-900 dark:text-gray-100 transition-colors">
-      {/* Page header / breadcrumb */}
-      <section className="border-b border-gray-200 bg-gray-50 dark:border-gray-700 dark:bg-gray-800/60">
-        <div className="mx-auto flex max-w-6xl flex-col gap-2 px-4 py-8">
-          <h1 className="text-3xl font-bold tracking-wide uppercase">Blog</h1>
-          <p className="text-sm text-gray-500 dark:text-gray-400">
-            Home{" "}
-            <span className="mx-1 text-gray-400 dark:text-gray-500">/</span>{" "}
-            Blog
-          </p>
-        </div>
-      </section>
 
       {/* Main content */}
       <main className="mx-auto flex max-w-6xl flex-col gap-10 px-4 py-10 lg:flex-row">
