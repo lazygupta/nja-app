@@ -48,7 +48,7 @@ export function Hero() {
         <div className="grid grid-cols-2 gap-3">
           <div className="relative aspect-square w-full overflow-hidden rounded-xl  shadow-md">
             <Image
-              src="https://dpqn4feq9d.ufs.sh/f/GRngv4TSmqJNmibVyd38fV4TyZxE8Q3v5MwNKLos7IirgGea"
+              src="/admin2.jpg"
               alt="Gallery Image 1"
               fill
               className="object-cover"
@@ -57,7 +57,7 @@ export function Hero() {
 
           <div className="relative aspect-square w-full overflow-hidden rounded-xl shadow-md">
             <Image
-              src="https://dpqn4feq9d.ufs.sh/f/GRngv4TSmqJNn8y0IYA5gEDkxWTIFqt61LcHRvwCiVBrAo4m"
+              src="/admin1.jpg"
               alt="Gallery Image 2"
               fill
               className="object-cover"

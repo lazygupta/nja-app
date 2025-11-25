@@ -1,6 +1,7 @@
 "use server";
 
 import { connectDB } from "@/lib/db";
+import { sendMail } from "@/lib/mail";
 import Member from "@/lib/model/Member";
 
 
@@ -52,6 +53,48 @@ export async function rejectMember(id: string) {
 
   await Member.findByIdAndUpdate(id, {
     status: "rejected",
+  });
+
+  return { success: true };
+}
+
+export async function sendPaymentRequest(memberId: string) {
+  await connectDB();
+
+  const member = await Member.findById(memberId);
+  if (!member) return { success: false };
+
+  // Generate unique payment reference
+  const paymentRef = "PAY-" + Math.floor(100000 + Math.random() * 900000);
+
+  // Update DB
+  await Member.findByIdAndUpdate(memberId, {
+    paymentReference: paymentRef,
+    paymentStatus: "sent",
+  });
+
+  // Send email with payment instructions
+  await sendMail({
+    to: member.email,
+    subject: "Membership Fee Payment Instructions",
+    html: `
+      Dear ${member.name}, <br/><br/>
+      Your membership application has been received.<br/><br/>
+      Please pay the membership fee of <strong>₹100</strong> using the details below:<br/><br/>
+
+      <b>UPI ID:</b> nja@upi<br/>
+      <b>Bank:</b> Axis<br/>
+      <b>Payment Reference No:</b> ${paymentRef}<br/><br/>
+
+      After payment, upload your receipt here:<br/>
+      <a href="${process.env.NEXT_PUBLIC_BASE_URL}/payment-upload/${memberId}">
+        Upload Receipt
+      </a>
+
+      <br/><br/>
+      Thank you,<br/>
+      National Journalist Association
+    `,
   });
 
   return { success: true };

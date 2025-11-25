@@ -48,6 +48,15 @@ const MemberSchema = new Schema(
     ugCert: String,
     characterCert: String,
 
+    paymentAmount: { type: Number, default: 100 }, // or 600, etc.
+    paymentReference: { type: String, default: "" },
+    paymentReceipt: { type: String, default: "" },
+    paymentStatus: {
+      type: String,
+      enum: ["not_sent", "sent", "uploaded", "verified"],
+      default: "not_sent",
+    },
+
     // Admin fields (for future)
     status: {
       type: String,

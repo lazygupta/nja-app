@@ -308,8 +308,6 @@ export default function JoinPage() {
                   </div>
 
                   <div className="grid gap-4 md:grid-cols-2">
-                    
-
                     <div className="space-y-1.5">
                       <Label>Gender*</Label>
                       <Select
@@ -351,10 +349,8 @@ export default function JoinPage() {
                       </Select>
                     </div>
                   </div>
-
                 </div>
 
-                {/* CONTACT DETAILS */}
                 <div className="grid gap-4 md:grid-cols-2">
                   <div className="space-y-1.5">
                     <Label htmlFor="mobile">Mobile No*</Label>
@@ -375,6 +371,44 @@ export default function JoinPage() {
                     />
                   </div>
                 </div>
+
+                {/* FAMILY DETAILS */}
+                <div className="space-y-3">
+                  <h3 className="text-lg font-semibold">PERSONAL DETAILS</h3>
+
+                  <div className="grid gap-4 md:grid-cols-2">
+                    <div className="space-y-1.5">
+                      <Label htmlFor="father">Father&apos;s Name*</Label>
+                      <Input
+                        id="father"
+                        name="father"
+                        onChange={handleChange}
+                        required
+                      />
+                    </div>
+                    <div className="space-y-1.5">
+                      <Label>
+                        Whether convicted in any case / FIR / Criminal Case*
+                      </Label>
+                      <Select
+                        onValueChange={(value) =>
+                          handleSelectChange("crime", value)
+                        }
+                      >
+                        <SelectTrigger className="w-full">
+                          <SelectValue placeholder="Select" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="no">No</SelectItem>
+                          <SelectItem value="yes">Yes</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
+                </div>
+
+                {/* CONTACT DETAILS */}
+                
 
                 <div className="grid gap-4 md:grid-cols-2">
                   <div className="space-y-1.5">
@@ -429,45 +463,12 @@ export default function JoinPage() {
                   </div>
                 </div>
 
-                {/* FAMILY DETAILS */}
-                <div className="space-y-3">
-                  <h3 className="text-lg font-semibold">PERSONAL DETAILS</h3>
-
-                  <div className="grid gap-4 md:grid-cols-2">
-                    <div className="space-y-1.5">
-                      <Label htmlFor="father">Father&apos;s Name*</Label>
-                      <Input
-                        id="father"
-                        name="father"
-                        onChange={handleChange}
-                        required
-                      />
-                    </div>
-                    <div className="space-y-1.5">
-                  <Label>
-                    Whether convicted in any case / FIR / Criminal Case*
-                  </Label>
-                  <Select
-                    onValueChange={(value) =>
-                      handleSelectChange("crime", value)
-                    }
-                  >
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="no">No</SelectItem>
-                      <SelectItem value="yes">Yes</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-                  </div>
-
-                </div>
-
                 <div className="grid gap-4 md:grid-cols-2">
                   <div className="space-y-1.5">
-                    <Label htmlFor="facebook">How did you hear about us? (If through a person, mention their name)</Label>
+                    <Label htmlFor="facebook">
+                      How did you hear about us? (If through a person, mention
+                      their name)
+                    </Label>
                     <Input
                       id="facebook"
                       name="facebook"
@@ -531,8 +532,8 @@ export default function JoinPage() {
                       criminal proceeding.
                     </li>
                     <li>
-                      Membership fee ₹ 100/- (yearly) (National
-                      Journalist Association&apos;s Welfare Fund).
+                      Membership fee ₹ 100/- (yearly) (National Journalist
+                      Association&apos;s Welfare Fund).
                     </li>
                   </ul>
                 </div>
@@ -544,16 +545,17 @@ export default function JoinPage() {
                 <CardTitle>Bank Details</CardTitle>
               </CardHeader>
               <CardContent className="space-y-3 text-sm leading-relaxed">
+                <p className="font-bold">National Journalist Association</p>
                 <p>
                   <span className="font-semibold">Bank Name &amp; Branch:</span>{" "}
-                  State Bank of India
+                  Axis Bank
                 </p>
                 <p>
                   <span className="font-semibold">Account No.:</span>{" "}
-                  XXXXXXXXXXXX
+                  922020004087277
                 </p>
                 <p>
-                  <span className="font-semibold">IFSC Code:</span> XXXXXXXXXX
+                  <span className="font-semibold">IFSC Code:</span> UTIB0000766
                 </p>
 
                 <p className="text-xs text-muted-foreground">
@@ -567,7 +569,6 @@ export default function JoinPage() {
                   to our registered office by post. Mention the payment
                   reference number and date at the back of the hard copy.
                 </p>
-
               </CardContent>
             </Card>
           </div>

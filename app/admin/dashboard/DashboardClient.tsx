@@ -2,9 +2,14 @@
 
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { approveMember, rejectMember } from "../actions";
+import { approveMember, rejectMember, sendPaymentRequest } from "../actions";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 type Member = {
   _id: string;
@@ -19,6 +24,7 @@ type Member = {
   idProof?: string;
   ugCert?: string;
   characterCert?: string;
+  paymentReceipt?: string;
 };
 
 type Props = {
@@ -37,8 +43,9 @@ const TABS = [
 ] as const;
 
 export default function DashboardClient({ members }: Props) {
-  const [activeTab, setActiveTab] =
-    useState<"pending" | "approved" | "rejected">("pending");
+  const [activeTab, setActiveTab] = useState<
+    "pending" | "approved" | "rejected"
+  >("pending");
   const [isPending, startTransition] = useTransition();
   const [designationDrafts, setDesignationDrafts] = useState<
     Record<string, string>
@@ -107,9 +114,7 @@ export default function DashboardClient({ members }: Props) {
             <h2 className="text-lg font-semibold capitalize">
               {activeTab} Members
             </h2>
-            {isPending && (
-              <p className="text-xs text-gray-500">Updating…</p>
-            )}
+            {isPending && <p className="text-xs text-gray-500">Updating…</p>}
           </div>
 
           {filtered.length === 0 ? (
@@ -133,14 +138,13 @@ export default function DashboardClient({ members }: Props) {
                       </p>
 
                       <p className="text-xs text-gray-500">
-                        Final Designation:{" "}
-                        {m.finalDesignation || "Not set"}
+                        Final Designation: {m.finalDesignation || "Not set"}
                       </p>
                     </div>
 
                     {/* Designation editor (owner sets designation) */}
                     {activeTab === "pending" && (
-                      <div className="space-y-1">
+                      <div className="space-y-1 space-x-3">
                         <label className="block text-xs font-semibold">
                           Set Final Designation
                         </label>
@@ -150,9 +154,7 @@ export default function DashboardClient({ members }: Props) {
                           placeholder="e.g. State Coordinator"
                           required
                           value={
-                            designationDrafts[m._id] ??
-                            m.finalDesignation ??
-                            ""
+                            designationDrafts[m._id] ?? m.finalDesignation ?? ""
                           }
                           onChange={(e) =>
                             setDesignationDrafts((prev) => ({
@@ -161,6 +163,23 @@ export default function DashboardClient({ members }: Props) {
                             }))
                           }
                         />
+
+                        {!m.paymentReceipt && (<Button
+                          size="sm"
+                          className="bg-purple-600 hover:bg-purple-700 text-xs"
+                          disabled={isPending}
+                          onClick={() =>
+                            startTransition(async () => {
+                              const res = await sendPaymentRequest(m._id);
+                              if (res?.success)
+                                alert("Payment email sent to member.");
+                              else alert("Failed to send email.");
+                            })
+                          }
+                        >
+                          Send Membership Fee Message
+                        </Button>
+                      )}
                       </div>
                     )}
 
@@ -254,6 +273,17 @@ export default function DashboardClient({ members }: Props) {
                         }
                       >
                         View Press Card Certificate
+                      </Button>
+                    )}
+                    {m.paymentReceipt && (
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() =>
+                          openPreview(m.paymentReceipt!, "Payment Receipt")
+                        }
+                      >
+                        View Receipt
                       </Button>
                     )}
                   </div>
