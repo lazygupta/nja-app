@@ -32,16 +32,6 @@ export function Hero() {
             <br />
             Registered under Trust Act 1882
           </p>
-
-          <div className="mt-6 flex gap-4">
-            <Button className="rounded-full" size="lg">
-              Learn More
-            </Button>
-
-            <Button variant="outline" className="rounded-full" size="lg">
-              Join Us
-            </Button>
-          </div>
         </div>
 
         {/* RIGHT SIDE - HERO IMAGE GALLERY */}
